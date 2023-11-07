@@ -24,7 +24,6 @@ def update_high_scores(score):
 
 
 def show_high_scores():
-    show_high_score = True
     high_scores = []
 
     if os.path.isfile("src\high_scores.txt"):

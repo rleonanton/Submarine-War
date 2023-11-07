@@ -2,7 +2,8 @@ import random, pygame
 
 run_menu = True
 run = True
-show_high_score = True
+show_high_score = False
+
 
 playing_music = True
 game_is_over = False

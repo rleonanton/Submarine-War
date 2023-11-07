@@ -1,6 +1,6 @@
 import pygame
 import sys
-from config import *
+from config import width, height, width_button, height_button, GRAY, BLACK, GREEN
 
 def main_menu(screen):
     pygame.init()
@@ -20,8 +20,9 @@ def main_menu(screen):
         text_rect = label.get_rect(center = rect_button.center)  # Centra el texto en el botón
         screen.blit(label, text_rect.topleft) 
 
+    
     menu_option = None
-
+    
     while menu_option is None:
         # Rellena la pantalla con la imagen de fondo
         screen.blit(background, (0, 0))

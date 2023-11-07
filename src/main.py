@@ -350,7 +350,7 @@ def wait_user():
 def restart_game():
     global submarine_rect, qty_mines, naval_mine_list, qty_coins, submarine_shield, score, move_up, move_down, move_left,\
         move_right, front_bullet_count, top_bullet_count, front_bullets, top_bullets, destroyer_list, destroyer_bullets, \
-        enemies_images, time_last_shot, submarine_speed, time_last_shot, destroyer_hit, new_destroyer_delay, time_last_destroyer_hit, run, game_is_over
+        enemies_images, time_last_shot, run_menu, show_high_score, submarine_speed, time_last_shot, destroyer_hit, new_destroyer_delay, time_last_destroyer_hit, run, game_is_over
 
     # Restablecer las variables del juego
     submarine_rect = pygame.Rect(width // 2 - width_rect_submarine // 2, height - height_rect_submarine - 10, width_rect_submarine, height_rect_submarine)
@@ -375,6 +375,9 @@ def restart_game():
     time_last_destroyer_hit = 0
     game_is_over = False
     run = True
+    run_menu = True
+    run = True
+    show_high_score = False
     naval_mine_list.clear()  # Reinicia la lista a una lista vacía
     create_naval_mine(naval_mine_list, qty_mines, "src\images\mina_submarina.png", width_mine, height_mine, width)
     update_destroyer(destroyer_rect, ship_enemy_speed)
@@ -439,7 +442,9 @@ def show_text(screen, text, font_size, coordinates, font_color):
 #Bucle principal
 
 while run_menu:
-    menu_option = main_menu(window)
+
+    menu_option = main_menu(screen)
+
     if menu_option == "INICIAR JUEGO":
         run_menu = False
         run = True
@@ -617,8 +622,6 @@ while run_menu:
                     if destroyer_bullet["rect"].right < 0 or destroyer_bullet["rect"].top > height:
                         destroyer_bullets.remove(destroyer_bullet)
                         print("se ha eliminado una bala del destroyer")
-
-
 
 
                 ###--- colisiones
@@ -799,25 +802,24 @@ while run_menu:
                 
                 # dibujo los score en pantalla
 
-                
                 pygame.display.update() #funcion para actualizar partalla
                 clock.tick(FPS)
-
-        finish()
-    elif menu_option == "VER PUNTUACIONES":
-        show_high_scores = True  # Habilita la visualización de puntajes
-
-        while show_high_scores:
+    
+        menu_option = None
+        run_menu = True
+    if menu_option == "VER PUNTUACIONES":
+        show_high_score = True  # Habilita la visualización de puntajes
+        while show_high_score:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    show_high_scores = False  # Sal del bucle de puntajes cuando se cierre la ventana
+                    show_high_score = False  # Sal del bucle de puntajes cuando se cierre la ventana
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     # Verifica si el jugador hace clic en el botón para volver al menú
                     mouse_x, mouse_y = pygame.mouse.get_pos()
                     if (width // 2 - 100 <= mouse_x <= width // 2 + 100) and (500 <= mouse_y <= 550):
-                        show_high_scores = False 
+                        show_high_score = False 
                     # Limpiar la pantalla
-                screen.fill(BLACK)
+            screen.fill(BLACK)
 
             # Dibuja los puntajes altos
             with open("src\high_scores.txt", "r") as file:
@@ -838,11 +840,9 @@ while run_menu:
 
             # Actualiza la pantalla
             pygame.display.update()
-
-
-
-
-    elif menu_option == "SALIR":
+        
+        
+    if menu_option == "SALIR":
         pygame.quit()
         sys.exit()
 
